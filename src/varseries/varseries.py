@@ -48,10 +48,14 @@ class VariationSeries:
 
     @property
     def x_max(self) -> [float, int]:
+        if isinstance(self.vals[0], tuple):
+            return self.vals[-1][1]
         return max(self.vals)
 
     @property
     def x_min(self) -> [float, int]:
+        if isinstance(self.vals[0], tuple):
+            return self.vals[0][0]
         return min(self.vals)
 
     # Different for discrete and continuous vs
@@ -161,7 +165,7 @@ class DiscreteVS(VariationSeries):
 
     def build_vs_from_list(self, values: list) -> 'collections.OrderedDict':
         vs = collections.OrderedDict()
-        for val in values:
+        for val in sorted(values):
             vs[val] = vs.get(val, 0) + 1
         return vs
 
@@ -170,6 +174,9 @@ class DiscreteVS(VariationSeries):
 class ContinuousVS(VariationSeries):
     def draw_hist(self, title='Гистограмма'):
         x = self.vals
+        if isinstance(x[0], tuple):
+            x = [x[0][0]] + [right for _, right in x]
+
         xbins = {
             'start': self.x_min, 'end': self.x_max,
             'size': self.delta,
