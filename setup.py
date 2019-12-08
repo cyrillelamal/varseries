@@ -6,8 +6,8 @@ with open('README.md', 'rt') as f:
 
 
 setup(
-    name='VarSeries',
-    version='2.0.2',
+    name='varseries',
+    version='2.0.3',
     license='MIT',
     author='Cyrille Kossyguine',
     author_email='lambda_man@outlook.fr',
